@@ -1,14 +1,17 @@
 (function () {
 
-  const canvasWidth = 675;
-  const canvasHeight = 1164;
+  const canvasWidth = 750;
+  const canvasHeight = 1575;
   const modelPosX = 130;
-  const modelPosY = 800;
+  const modelPosY = 1050;
+  const textYPos = 1345;
+  const textAngle = -8;
+  const textHeight = 40;
 
   window.addEventListener('load', init);
 
   function init() {
-    document.fonts.load('50px dragalialost').then(drawImage).then(setupListener);
+    document.fonts.load('60px dragalialost').then(drawImage).then(setupListener);
   }
 
   function setupListener() {
@@ -43,33 +46,32 @@
     ctx.drawImage(spark, 0, 0);
     ctx.drawImage(bar, 0, 0);
 
-    ctx.font = '50px dragalialost';
+    ctx.font = '60px dragalialost';
     ctx.fillStyle = '#6a551f';
 
-    let defaultText = 1080;
-    let textAngle = -7;
 
     let textWidth = ctx.measureText(adventurerName).width;
-    let textHeight = 35;
-    let rotateCenter = 337;
+    let rotateCenter = canvasWidth / 2;
     let padding = 10;
-    let textStart = 337 - (textWidth + elementImg.width + padding) / 2 + elementImg.width + padding;
+    let textStart = rotateCenter - (textWidth + elementImg.width + padding) / 2 + elementImg.width + padding;
 
-    ctx.translate(rotateCenter, defaultText);
+    ctx.translate(rotateCenter, textYPos);
     ctx.rotate(textAngle * Math.PI / 180);
-    ctx.translate(-rotateCenter, -defaultText);
+    ctx.translate(-rotateCenter, -textYPos);
 
-    ctx.fillText(adventurerName, textStart + 5, defaultText + 5);
+    ctx.fillText(adventurerName, textStart + 5, textYPos + 5);
 
     ctx.fillStyle = 'white';
 
-    ctx.fillText(adventurerName, textStart, defaultText);
+    ctx.fillText(adventurerName, textStart, textYPos);
 
-    ctx.drawImage(elementImg, 337 - (textWidth + elementImg.width + padding) / 2, defaultText - textHeight - (elementImg.height - textHeight) / 2);
+    ctx.drawImage(elementImg, rotateCenter - (textWidth + elementImg.width + padding) / 2, textYPos - textHeight - (elementImg.height - textHeight) / 2);
 
-    ctx.translate(rotateCenter, defaultText);
+    ctx.translate(rotateCenter, textYPos);
     ctx.rotate(-textAngle * Math.PI / 180);
-    ctx.translate(-rotateCenter, -defaultText);
+    ctx.translate(-rotateCenter, -textYPos);
+
+    id('download').href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
   }
 
   function drawImageOffsetScale(ctx, image, scale, centerX, centerY, offsetX, offsetY) {
@@ -91,6 +93,7 @@
 
   function loadImage(src){
     let img = new Image();
+    img.crossOrigin = 'anonymous';
     img.src = src;
     return new Promise((resolve, reject) => {
       img.onload = () => resolve(img);
