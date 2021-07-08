@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Lato&amp;family=Noto+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+  <script src="main.js"></script>
+  <title>Summon Screen Generator</title>
+</head>
+<body>
+  <h1>Summon Screen Generator</h1>
+  <div id="uploadArea">
+    <div>
+      <h2>Portrait Image (Reccommended Size: 675x1165):</h2>
+      <img src="images/exampleFleur.png" id="portrait">
+      <input id="portraitUpload" type="file" accept="image/*" data-image="portrait">
+    </div>
+    <div>
+      <h2>Model Image (Reccommended Size: 370x370):</h2>
+      <img src="images/exampleFleurModel.png" id="model">
+      <input id="modelUpload" type="file" accept="image/*" data-image="model">
+    </div>
+  </div>
+  <input type="text" placeholder="Adventurer Name" value="Fleur" id="name">
+  <select id="element">
+    <option value="fire">Flame</option>
+    <option value="water">Water</option>
+    <option value="wind">Wind</option>
+    <option value="light" selected>Light</option>
+    <option value="shadow">Shadow</option>
+  </select>
+  <h2>Right click to download:</h2>
+  <canvas id="editor" width="675px" height="1164px"></canvas>
+</body>
+</html>
