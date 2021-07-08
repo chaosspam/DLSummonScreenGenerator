@@ -16,6 +16,7 @@
   function setupListener() {
     id("name").addEventListener("change", drawImage);
     id("element").addEventListener("change", drawImage);
+    id("sparkAmount").addEventListener("change", drawImage);
     id("portraitUpload").addEventListener("change", changeImage);
     id("modelUpload").addEventListener("change", changeImage);
     id("portrait").addEventListener("load", drawImage);
@@ -62,7 +63,6 @@
     drawImageOffsetScale(ctx, portrait, id("portraitScale").value, canvas.width / 2, canvas.height / 2, id("portraitOffsetX").value, id("portraitOffsetY").value);
     drawImageOffsetScale(ctx, model, id("modelScale").value, modelPosX, modelPosY, id("modelOffsetX").value, id("modelOffsetY").value);
 
-    ctx.drawImage(spark, 0, 0);
     ctx.drawImage(bar, 0, 0);
 
     ctx.font = "60px dragalialost";
@@ -89,6 +89,14 @@
     ctx.translate(rotateCenter, textYPos);
     ctx.rotate(-textAngle * Math.PI / 180);
     ctx.translate(-rotateCenter, -textYPos);
+
+    for(let i = 0; i < parseInt(id("sparkAmount").value); i++)
+    {
+      if(Math.random() > 0.6) {
+        let sparkScale = Math.min(Math.random(), .8);
+        ctx.drawImage(spark, Math.random() * canvas.width,  Math.random() * canvas.height, spark.height * sparkScale, spark.width * sparkScale);
+      }
+    }
 
     id("download").href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
 
