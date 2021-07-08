@@ -9,6 +9,7 @@
   window.addEventListener("load", init);
 
   function init() {
+    // Wait for font load before drawing
     document.fonts.load("60px dragalialost").then(drawImage).then(setupListener);
   }
 
@@ -19,7 +20,27 @@
     id("modelUpload").addEventListener("change", changeImage);
     id("portrait").addEventListener("load", drawImage);
     id("model").addEventListener("load", drawImage);
-    document.querySelectorAll("input[type=number]").forEach(e=>e.addEventListener("change", drawImage))
+    document.querySelectorAll("input[type=number]").forEach(e => {
+      qs(`[data-slider="${e.id}"]`).addEventListener("input", sliderUpdateNumInput);
+      qs(`[data-slider="${e.id}"]`).addEventListener("change", sliderChangeNumInput);
+      e.addEventListener("input", numInputUpdateSlider);
+      e.addEventListener("change", drawImage);
+    });
+  }
+
+  function sliderUpdateNumInput() {
+    let input = id(this.dataset.slider);
+    input.value = this.value;
+  }
+
+  function sliderChangeNumInput() {
+    let input = id(this.dataset.slider);
+    input.dispatchEvent(new Event('change'));
+  }
+
+  function numInputUpdateSlider() {
+    let slider = qs(`[data-slider="${this.id}"]`);
+    slider.value = this.value;
   }
 
   function changeImage() {
@@ -92,6 +113,10 @@
 
   function id(elementId) {
     return document.getElementById(elementId);
+  }
+
+  function qs(selector) {
+    return document.querySelector(selector);
   }
 
   function loadImage(src){
