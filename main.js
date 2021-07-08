@@ -4,7 +4,7 @@
 
   function init() {
     setupListener();
-    drawImage();
+    document.fonts.load('50px dragalialost').then(drawImage);
     id('portrait').addEventListener("load", drawImage);
     id('model').addEventListener("load", drawImage);
   }
