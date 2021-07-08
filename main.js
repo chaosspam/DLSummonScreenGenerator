@@ -1,19 +1,18 @@
 (function () {
 
-  window.addEventListener("load", init);
+  window.addEventListener('load', init);
 
   function init() {
-    setupListener();
-    document.fonts.load('50px dragalialost').then(drawImage);
-    id('portrait').addEventListener("load", drawImage);
-    id('model').addEventListener("load", drawImage);
+    document.fonts.load('50px dragalialost').then(drawImage).then(setupListener);
   }
 
   function setupListener() {
-    id('name').addEventListener("change", drawImage);
-    id('element').addEventListener("change", drawImage);
-    id('portraitUpload').addEventListener("change", changeImage);
-    id('modelUpload').addEventListener("change", changeImage);
+    id('name').addEventListener('change', drawImage);
+    id('element').addEventListener('change', drawImage);
+    id('portraitUpload').addEventListener('change', changeImage);
+    id('modelUpload').addEventListener('change', changeImage);
+    id('portrait').addEventListener('load', drawImage);
+    id('model').addEventListener('load', drawImage);
   }
 
   function changeImage() {
@@ -21,15 +20,15 @@
   }
 
   async function drawImage() {
-    const canvas = id("editor");
-    const ctx = canvas.getContext("2d");
-    const img = await loadImage("images/bg.png");
+    const canvas = id('editor');
+    const ctx = canvas.getContext('2d');
+    const img = await loadImage('images/bg.png');
     const elementImg = await loadImage(`images/${id('element').value}.png`);
     const adventurerName = id('name').value;
-    const spark = await loadImage("images/spark.png");
-    const bar = await loadImage("images/bar.png");
-    const portrait = id("portrait");
-    const model = id("model");
+    const spark = await loadImage('images/spark.png');
+    const bar = await loadImage('images/bar.png');
+    const portrait = id('portrait');
+    const model = id('model');
     ctx.drawImage(img, 0, 0);
 
     let centerX = 675 / 2;
@@ -45,7 +44,7 @@
     ctx.drawImage(bar, 0, 0);
 
     ctx.font = '50px dragalialost';
-    ctx.fillStyle = "#6a551f";
+    ctx.fillStyle = '#6a551f';
 
     let defaultText = 1080;
     let textAngle = -7;
@@ -62,7 +61,7 @@
 
     ctx.fillText(adventurerName, textStart + 5, defaultText + 5);
 
-    ctx.fillStyle = "white";
+    ctx.fillStyle = 'white';
 
     ctx.fillText(adventurerName, textStart, defaultText);
 
