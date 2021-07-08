@@ -1,5 +1,10 @@
 (function () {
 
+  const canvasWidth = 675;
+  const canvasHeight = 1164;
+  const modelPosX = 130;
+  const modelPosY = 800;
+
   window.addEventListener('load', init);
 
   function init() {
@@ -13,6 +18,7 @@
     id('modelUpload').addEventListener('change', changeImage);
     id('portrait').addEventListener('load', drawImage);
     id('model').addEventListener('load', drawImage);
+    document.querySelectorAll('input[type=number]').forEach(e=>e.addEventListener('change', drawImage))
   }
 
   function changeImage() {
@@ -31,14 +37,8 @@
     const model = id('model');
     ctx.drawImage(img, 0, 0);
 
-    let centerX = 675 / 2;
-    let centerY = 1164 / 2;
-    ctx.drawImage(portrait, centerX - portrait.naturalWidth / 2, centerY - portrait.naturalHeight / 2);
-
-    centerX = 130;
-    centerY = 800;
-    ctx.drawImage(model, centerX - model.naturalWidth / 2, centerY - model.naturalHeight / 2);
-
+    drawImageOffsetScale(ctx, portrait, id('portraitScale').value, canvasWidth / 2, canvasHeight / 2, id('portraitOffsetX').value, id('portraitOffsetY').value);
+    drawImageOffsetScale(ctx, model, id('modelScale').value, modelPosX, modelPosY, id('modelOffsetX').value, id('modelOffsetY').value);
 
     ctx.drawImage(spark, 0, 0);
     ctx.drawImage(bar, 0, 0);
@@ -70,6 +70,19 @@
     ctx.translate(rotateCenter, defaultText);
     ctx.rotate(-textAngle * Math.PI / 180);
     ctx.translate(-rotateCenter, -defaultText);
+  }
+
+  function drawImageOffsetScale(ctx, image, scale, centerX, centerY, offsetX, offsetY) {
+    scale = parseFloat(scale);
+    centerX = parseFloat(centerX);
+    centerY = parseFloat(centerY);
+    offsetX = parseFloat(offsetX);
+    offsetY = parseFloat(offsetY);
+    let width = image.naturalWidth * scale;
+    let height = image.naturalHeight * scale;
+    let x = centerX - width / 2 + offsetX;
+    let y = centerY - height / 2 + offsetY;
+    ctx.drawImage(image, x, y, width, height);
   }
 
   function id(elementId) {
