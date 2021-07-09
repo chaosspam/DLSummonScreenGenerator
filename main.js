@@ -27,6 +27,7 @@
     id("name").addEventListener("change", drawImage);
     id("element").addEventListener("change", drawImage);
     id("sparkAmount").addEventListener("change", drawImage);
+    id("jp").addEventListener("change", drawImage);
     id("portrait").addEventListener("load", drawImage);
     id("model").addEventListener("load", drawImage);
 
@@ -68,6 +69,7 @@
       textures.shadow = await loadImage(`images/shadow.png`);
       textures.spark = await loadImage("images/spark.png");
       textures.bar = await loadImage("images/bar.png");
+      textures.skipjp = await loadImage("images/skipjp.png");
     }
   }
 
@@ -95,6 +97,10 @@
     // Draw background elements
     ctx.drawImage(background, 0, 0);
 
+    if(id("jp").checked) {
+      ctx.drawImage(textures.skipjp, 0, 0);
+    }
+
     drawImageOffsetScale(ctx, portrait, id("portraitScale").value,
       canvas.width / 2, canvas.height / 2,
       id("portraitOffsetX").value, id("portraitOffsetY").value);
@@ -119,8 +125,16 @@
 
     // Draw the shadow of text -> text -> element
     ctx.font = "60px dragalialost";
+
+    let shadowOffset = 5;
+
+    if(id("jp").checked) {
+      await document.fonts.load("60px dragalialostjp");
+      ctx.font = "60px dragalialostjp";
+      shadowOffset = 7;
+    }
     ctx.fillStyle = "#6a551f";
-    ctx.fillText(adventurerName, textXPos + 5, textYPos + 5);
+    ctx.fillText(adventurerName, textXPos + shadowOffset, textYPos + shadowOffset);
     ctx.fillStyle = "white";
     ctx.fillText(adventurerName, textXPos, textYPos);
     ctx.drawImage(element, elementXPos, elementYPos);
@@ -133,10 +147,8 @@
     // Draw sparks
     for(let i = 0; i < sparkAmount; i++)
     {
-      if(Math.random() > 0.75) {
-        let sparkScale = Math.min(Math.random(), .8);
-        ctx.drawImage(spark, Math.random() * canvas.width,  Math.random() * canvas.height, spark.height * sparkScale, spark.width * sparkScale);
-      }
+      let sparkScale = Math.min(Math.random(), .8);
+      ctx.drawImage(spark, Math.random() * canvas.width,  Math.random() * canvas.height, spark.height * sparkScale, spark.width * sparkScale);
     }
 
     // Generate download url
