@@ -165,7 +165,7 @@
     centerX = parseFloat(centerX);
     centerY = parseFloat(centerY);
     offsetX = parseFloat(offsetX);
-    offsetY = parseFloat(offsetY);
+    offsetY = -parseFloat(offsetY);
     let width = image.naturalWidth * scale;
     let height = image.naturalHeight * scale;
     let x = centerX - width / 2 + offsetX;
