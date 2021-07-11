@@ -8,11 +8,18 @@
   const textures = {};
   const elementTextSpacing = 5;
 
+  let drawing = false;
+  let jpfontloaded = false;
+
   window.addEventListener("load", init);
 
-  function init() {
+  async function init() {
     // Wait for font load before drawing
-    document.fonts.load("60px dragalialost").then(drawImage).then(setupListener);
+    await document.fonts.load("60px dragalialosten");
+    await document.fonts.load("60px dragalialostjp");
+    await document.fonts.load("60px dragalialostcn");
+    await drawImage();
+    setupListener();
   }
 
   /**
@@ -28,6 +35,9 @@
     id("element").addEventListener("change", drawImage);
     id("sparkAmount").addEventListener("change", drawImage);
     id("jp").addEventListener("change", drawImage);
+    id("en").addEventListener("change", drawImage);
+    id("cn").addEventListener("change", drawImage);
+
     id("portrait").addEventListener("load", drawImage);
     id("model").addEventListener("load", drawImage);
 
@@ -77,9 +87,17 @@
    * Draws the summon screen based on inputs
    */
   async function drawImage() {
+    console.log("draw");
+    if(drawing) return;
+    drawing = true;
+
     // Get canvas context
     const canvas = id("editor");
     const ctx = canvas.getContext("2d");
+    const previewCanvas = id("preview");
+    const previewCtx = previewCanvas.getContext("2d");
+
+    previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
 
     // Load images for use
     await loadTextures();
@@ -88,6 +106,7 @@
     const spark = textures.spark;
     const bar = textures.bar;
     const sparkAmount = parseInt(id("sparkAmount").value);
+    const font =  qs("input[name=font]:checked").value;
 
     // Get parameters
     const adventurerName = id("name").value;
@@ -111,6 +130,8 @@
 
     ctx.drawImage(bar, 0, 0);
 
+    ctx.font = "60px dragalialost" + font;
+
     // Calculate text position based on text width
     let textWidth = ctx.measureText(adventurerName).width;
     let canvasCenter = canvas.width / 2;
@@ -124,13 +145,8 @@
     ctx.translate(-canvasCenter, -textYPos);
 
     // Draw the shadow of text -> text -> element
-    ctx.font = "60px dragalialost";
-
     let shadowOffset = 5;
-
-    if(id("jp").checked) {
-      await document.fonts.load("60px dragalialostjp");
-      ctx.font = "60px dragalialostjp";
+    if(font === "jp" || font === "cn") {
       shadowOffset = 7;
     }
     ctx.fillStyle = "#6a551f";
@@ -155,9 +171,9 @@
     id("download").href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
 
     // Draw the editor canvas on the smaller preview canvas
-    const previewCanvas = id("preview");
-    const previewCtx = previewCanvas.getContext("2d");
     previewCtx.drawImage(canvas, 0, 0, previewCanvas.width, previewCanvas.height);
+
+    drawing = false;
   }
 
   function drawImageOffsetScale(ctx, image, scale, centerX, centerY, offsetX, offsetY) {
