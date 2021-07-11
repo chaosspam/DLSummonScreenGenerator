@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'dragalialost';
-  src: url('dragalialost.ttf');
+  font-family: 'dragalialosten';
+  src: url('dragalialosten.ttf');
   font-weight: 400;
   font-style: normal;
 }
@@ -8,6 +8,13 @@
 @font-face {
   font-family: 'dragalialostjp';
   src: url('dragalialostjp.otf');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'dragalialostcn';
+  src: url('dragalialostcn.ttf');
   font-weight: 400;
   font-style: normal;
 }
@@ -27,7 +34,11 @@ h2 {
 }
 
 canvas {
-  background-color: white;
+  background-image: url("images/loading.gif");
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-size: 25%;
+  background-color: black;
 }
 
 section, #uploadArea {
@@ -61,6 +72,10 @@ form label {
   display: block;
 }
 
+form input ~ label {
+  display: inline;
+}
+
 form input[type=number] {
   width: 3em;
 }
@@ -74,10 +89,15 @@ input {
   display: none;
 }
 
-a {
+form a {
   display: inline-block;
   padding: 0.5em;
   background-color: rgb(41, 163, 126);
   color: white;
   text-decoration: none;
+}
+
+footer {
+  margin-top: 20px;
+  text-align: center;
 }
