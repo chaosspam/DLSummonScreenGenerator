@@ -7,53 +7,53 @@
   <link href="https://fonts.googleapis.com/css2?family=Lato&amp;family=Noto+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
   <link href="style.css" rel="stylesheet">
   <script src="main.js"></script>
-  <title>Summon Screen Generator</title>
+  <title>ドラガリ召喚画面メーカー</title>
 </head>
 <body>
-  <h1>Summon Screen Generator</h1>
+  <h1>ドラガリ召喚画面メーカー</h1>
   <section>
     <canvas id="preview" width="250px" height="525px"></canvas>
     <div>
       <div id="uploadArea">
         <div>
-          <h2>Portrait Image (Reccommended Size: 750x1575):</h2>
+          <h2>イラスト (おすすめのサイズ: 750x1575):</h2>
           <img src="images/exampleFleur.png" id="portrait">
           <input id="portraitUpload" type="file" accept="image/*" data-image="portrait">
           <form>
             <div>
-              <label>Portrait Offset X</label>
+              <label>イラストの左右の位置を調整</label>
               <input type="number" id="portraitOffsetX" min="-200" max="200" value="0">
               <input type="range" min="-200" max="200" value="0" data-slider="portraitOffsetX">
             </div>
             <div>
-              <label>Portrait Offset Y</label>
+              <label>イラストの上下の位置を調整</label>
               <input type="number" id="portraitOffsetY" min="-200" max="200" value="0">
               <input type="range" min="-200" max="200" value="0" data-slider="portraitOffsetY">
             </div>
             <div>
-              <label>Portrait Scale</label>
+              <label>イラストを拡大・縮小</label>
               <input type="number" id="portraitScale" min="0" max="3" step="0.1" value="1">
               <input type="range" min="0" max="3" step="0.1" value="1" data-slider="portraitScale">
             </div>
           </form>
         </div>
         <div>
-          <h2>Model Image (Reccommended Size: 370x370):</h2>
+          <h2>モデルの画像 (おすすめのサイズ: 370x370):</h2>
           <img src="images/exampleFleurModel.png" id="model">
           <input id="modelUpload" type="file" accept="image/*" data-image="model">
           <form>
             <div>
-              <label>Model Offset X</label>
+              <label>モデルの画像の左右の位置を調整</label>
               <input type="number" id="modelOffsetX" min="-200" max="200" value="0">
               <input type="range" min="-200" max="200" value="0" data-slider="modelOffsetX">
             </div>
             <div>
-              <label>Model Offset Y</label>
+              <label>モデルの画像の上下の位置を調整</label>
               <input type="number" id="modelOffsetY" min="-200" max="200" value="0">
               <input type="range" min="-200" max="200" value="0" data-slider="modelOffsetY">
             </div>
             <div>
-              <label>Model Scale</label>
+              <label>モデルの画像を拡大・縮小</label>
               <input type="number" id="modelScale" min="0" max="3" step="0.1" value="1">
               <input type="range" min="0" max="3" step="0.1" value="1" data-slider="modelScale">
             </div>
@@ -62,44 +62,45 @@
       </div>
       <form>
         <div>
-          <label>Adventurer Name</label>
-          <input type="text" placeholder="Adventurer Name" value="Fleur" id="name">
+          <label>キャラ名</label>
+          <input type="text" placeholder="Adventurer Name" value="フルル" id="name">
         </div>
         <div>
-          <label>Font</label>
-          <input type="radio" id="en" name="font" value="en" checked>
+          <label>フォント</label>
+          <input type="radio" id="en" name="font" value="en">
           <label for="en">English</label>
-          <input type="radio" id="jp" name="font" value="jp">
+          <input type="radio" id="jp" name="font" value="jp" checked>
           <label for="jp">日本語</label>
           <input type="radio" id="cn" name="font" value="cn">
           <label for="cn">中文</label>
         </div>
         <div>
-          <label>Element Attunment</label>
+          <label>属性</label>
           <select id="element">
-            <option value="fire">Flame</option>
-            <option value="water">Water</option>
-            <option value="wind">Wind</option>
-            <option value="light" selected>Light</option>
-            <option value="shadow">Shadow</option>
+            <option value="fire">火</option>
+            <option value="water">水</option>
+            <option value="wind">風</option>
+            <option value="light" selected>光</option>
+            <option value="shadow">闇</option>
           </select>
         </div>
         <div>
-          <label>Spark Amount</label>
+          <label>キラキラ</label>
           <input type="number" id="sparkAmount" min="0" max="100" step="1" value="10">
           <input type="range" min="0" max="100" step="1" value="10" data-slider="sparkAmount">
         </div>
         <div>
-          <a href="#" id="download" download="summon_screen.png">Download</a>
+          <a href="#" id="download" download="summon_screen.png">ダウンロード</a>
         </div>
       </form>
     </div>
   </section>
   <canvas id="editor" width="750px" height="1575px" class="hidden"></canvas>
   <footer>
-    All characters/images belong to Cygames and Nintendo
+    当サイトに記載されている写真・イラストの著作権はCygames/任天堂に帰属します
     <a href="/">English</a>
     <a href="/jp.html">日本語</a>
-    <a href="/cn.html">中文</a></footer>
+    <a href="/cn.html">中文</a>
+  </footer>
 </body>
 </html>
