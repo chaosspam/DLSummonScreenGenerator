@@ -1,2 +1,2 @@
 # DLSummonScreenGenerator
-An image generator summon screen images of the game Dragalia Lost
+An image generator for generating summon screen images of the game Dragalia Lost
