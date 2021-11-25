@@ -12,12 +12,12 @@
 <body>
   <h1>Dragalia Lost Summon Screen Generator</h1>
   <section>
-    <canvas id="preview" width="250px" height="525px"></canvas>
+    <canvas id="preview" width="250" height="525"></canvas>
     <div>
       <div id="uploadArea">
         <div>
           <h2>Portrait Image (Reccommended Size: 750x1575):</h2>
-          <img src="images/exampleFleur.png" id="portrait">
+          <img src="images/exampleFleur.png" id="portrait" alt="Character Portrait">
           <input id="portraitUpload" type="file" accept="image/*" data-image="portrait">
           <form>
             <div>
@@ -39,7 +39,7 @@
         </div>
         <div>
           <h2>Model Image (Reccommended Size: 370x370):</h2>
-          <img src="images/exampleFleurModel.png" id="model">
+          <img src="images/exampleFleurModel.png" id="model" alt="Character Model">
           <input id="modelUpload" type="file" accept="image/*" data-image="model">
           <form>
             <div>
@@ -95,11 +95,12 @@
       </form>
     </div>
   </section>
-  <canvas id="editor" width="750px" height="1575px" class="hidden"></canvas>
+  <canvas id="editor" width="750" height="1575" class="hidden"></canvas>
   <footer>
     All characters/images belong to Cygames and Nintendo
-    <a href="/DLSummonScreenGenerator/">English</a>
-    <a href="/DLSummonScreenGenerator/jp.html">日本語</a>
-    <a href="/DLSummonScreenGenerator/cn.html">中文</a></footer>
+    <a href="index.html">English</a>
+    <a href="jp.html">日本語</a>
+    <a href="cn.html">中文</a>
+  </footer>
 </body>
 </html>
