@@ -1,106 +1,147 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Open Graph Tags -->
+  <meta property="og:title" content="龍絆召喚畫面生成器">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://chaosspam.github.io/DLSummonScreenGenerator/cn.html">
+  <meta property="og:image" content="https://chaosspam.github.io/DLSummonScreenGenerator/images/og-thumbnail.png">
+  <meta property="og:description" content="龍絆召喚畫面生成器">
+  <meta name="theme-color" content="#fdbb37">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Favicons / webmanifest -->
+  <link href="style.css" rel="stylesheet"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
   <link href="https://fonts.googleapis.com/css2?family=Lato&amp;family=Noto+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
-  <link href="style.css" rel="stylesheet">
   <script src="main.js"></script>
   <title>龍絆召喚畫面生成器</title>
 </head>
+
 <body>
-  <h1>龍絆召喚畫面生成器</h1>
+  <h1 id="top">龍絆召喚畫面生成器</h1>
+  <canvas id="preview" width="250" height="525"></canvas>
   <section>
-    <canvas id="preview" width="250px" height="525px"></canvas>
     <div>
-      <div id="uploadArea">
-        <div>
-          <h2>美術圖 (建議大小: 750x1575):</h2>
-          <img src="images/exampleFleur.png" id="portrait">
-          <input id="portraitUpload" type="file" accept="image/*" data-image="portrait">
-          <form>
+      <ul class="tab-bar">
+        <li role="button" class="active" id="portraitPanelTab">美術圖</li>
+        <li role="button" id="modelPanelTab">模型圖</li>
+      </ul>
+      <div>
+        <div class="tab active" id="portraitPanel">
+          <div>
+            <h2>美術圖</h2><label>(建議大小: 750x1575)</label>
+            <img src="images/exampleFleur.png" id="portrait">
+            <input id="portraitUpload" type="file" accept="image/*" data-image="portrait" autocomplete="off">
+          </div>
+          <div>
             <div>
-              <label>美術圖左右調整</label>
-              <input type="number" id="portraitOffsetX" min="-200" max="200" value="0">
-              <input type="range" min="-200" max="200" value="0" data-slider="portraitOffsetX">
+              <label>左右調整</label>
+              <div class="input-group">
+                <input type="number" id="portraitOffsetX" min="-200" max="200" value="0" autocomplete="off">
+                <input type="range" min="-200" max="200" value="0" data-slider="portraitOffsetX" autocomplete="off">
+              </div>
             </div>
             <div>
-              <label>美術圖上下調整</label>
-              <input type="number" id="portraitOffsetY" min="-200" max="200" value="0">
-              <input type="range" min="-200" max="200" value="0" data-slider="portraitOffsetY">
+              <label>上下調整</label>
+              <div class="input-group">
+                <input type="number" id="portraitOffsetY" min="-200" max="200" value="0" autocomplete="off">
+                <input type="range" min="-200" max="200" value="0" data-slider="portraitOffsetY" autocomplete="off">
+              </div>
             </div>
             <div>
-              <label>美術圖放大/縮小</label>
-              <input type="number" id="portraitScale" min="0" max="3" step="0.1" value="1">
-              <input type="range" min="0" max="3" step="0.1" value="1" data-slider="portraitScale">
+              <label>放大/縮小</label>
+              <div class="input-group">
+                <input type="number" id="portraitScale" min="0" max="3" step="0.1" value="1" autocomplete="off">
+                <input type="range" min="0" max="3" step="0.1" value="1" data-slider="portraitScale" autocomplete="off">
+              </div>
             </div>
-          </form>
+          </div>
         </div>
-        <div>
-          <h2>模型圖 (建議大小: 370x370):</h2>
-          <img src="images/exampleFleurModel.png" id="model">
-          <input id="modelUpload" type="file" accept="image/*" data-image="model">
-          <form>
+        <div class="tab" id="modelPanel">
+          <div>
+            <h2>模型圖</h2><label>(建議大小: 370x370)</label>
+            <img src="images/exampleFleurModel.png" id="model">
+            <input id="modelUpload" type="file" accept="image/*" data-image="model" autocomplete="off">
+          </div>
+          <div>
             <div>
-              <label>模型圖左右調整</label>
-              <input type="number" id="modelOffsetX" min="-200" max="200" value="0">
-              <input type="range" min="-200" max="200" value="0" data-slider="modelOffsetX">
+              <label>左右調整</label>
+              <div class="input-group">
+                <input type="number" id="modelOffsetX" min="-200" max="200" value="0" autocomplete="off">
+                <input type="range" min="-200" max="200" value="0" data-slider="modelOffsetX" autocomplete="off">
+              </div>
             </div>
             <div>
-              <label>模型圖上下調整</label>
-              <input type="number" id="modelOffsetY" min="-200" max="200" value="0">
-              <input type="range" min="-200" max="200" value="0" data-slider="modelOffsetY">
+              <label>上下調整</label>
+              <div class="input-group">
+                <input type="number" id="modelOffsetY" min="-200" max="200" value="0" autocomplete="off">
+                <input type="range" min="-200" max="200" value="0" data-slider="modelOffsetY" autocomplete="off">
+              </div>
             </div>
             <div>
-              <label>模型圖放大/縮小</label>
-              <input type="number" id="modelScale" min="0" max="3" step="0.1" value="1">
-              <input type="range" min="0" max="3" step="0.1" value="1" data-slider="modelScale">
+              <label>放大/縮小</label>
+              <div class="input-group">
+                <input type="number" id="modelScale" min="0" max="3" step="0.1" value="1" autocomplete="off">
+                <input type="range" min="0" max="3" step="0.1" value="1" data-slider="modelScale" autocomplete="off">
+              </div>
             </div>
-          </form>
+          </div>
         </div>
       </div>
-      <form>
-        <div>
-          <label>角色名稱</label>
-          <input type="text" placeholder="Adventurer Name" value="芙露璐" id="name">
+    </div>
+    <div id="dialogueArea" class="settings">
+
+      <div>
+        <label>角色名稱</label>
+        <input type="text" placeholder="角色名稱" value="芙露璐" id="name" autocomplete="off">
+      </div>
+      <div>
+        <label>字型</label>
+        <input type="radio" id="en" name="font" value="en">
+        <label for="en">English</label>
+        <input type="radio" id="jp" name="font" value="ja">
+        <label for="jp">日本語</label>
+        <input type="radio" id="cn" name="font" value="zh_tw" checked>
+        <label for="cn">中文</label>
+      </div>
+      <div>
+        <label>屬性</label>
+        <select id="element">
+          <option value="fire">火</option>
+          <option value="water" selected>水</option>
+          <option value="wind">風</option>
+          <option value="light">光</option>
+          <option value="shadow">闇</option>
+        </select>
+      </div>
+      <div>
+        <label>亮晶晶</label>
+        <div class="input-group">
+          <input type="number" id="sparkAmount" min="0" max="100" step="1" value="10" autocomplete="off">
+          <input type="range" min="0" max="100" step="1" value="10" data-slider="sparkAmount" autocomplete="off">
         </div>
-        <div>
-          <label>字型</label>
-          <input type="radio" id="en" name="font" value="en">
-          <label for="en">English</label>
-          <input type="radio" id="jp" name="font" value="jp">
-          <label for="jp">日本語</label>
-          <input type="radio" id="cn" name="font" value="cn" checked>
-          <label for="cn">中文</label>
-        </div>
-        <div>
-          <label>屬性</label>
-          <select id="element">
-            <option value="fire">火</option>
-            <option value="water" selected>水</option>
-            <option value="wind">風</option>
-            <option value="light">光</option>
-            <option value="shadow">闇</option>
-          </select>
-        </div>
-        <div>
-          <label>亮晶晶</label>
-          <input type="number" id="sparkAmount" min="0" max="100" step="1" value="10">
-          <input type="range" min="0" max="100" step="1" value="10" data-slider="sparkAmount">
-        </div>
-        <div>
-          <a href="#" id="download" download="summon_screen.png">下載</a>
-        </div>
-      </form>
+      <div>
+        <button class="button" id="download">Download</button>
+      </div>
     </div>
   </section>
-  <canvas id="editor" width="750px" height="1575px" class="hidden"></canvas>
+  <canvas id="editor" class="hidden" width="750" height="1575"></canvas>
   <footer>
-    角色/圖像均為Cygames/任天堂所有
-    <a href="/DLSummonScreenGenerator/">English</a>
-    <a href="/DLSummonScreenGenerator/jp.html">日本語</a>
-    <a href="/DLSummonScreenGenerator/cn.html">中文</a>
-  </footer>
+    角色/圖像均為Cygames/任天堂所有 /<a href="https://github.com/chaosspam/DLSummonScreenGenerator"> Github </a>
+      <br />
+      <select class="language-select" id="languageSelect" autocomplete="off">
+        <option value="index.html">English</option>
+        <option value="jp.html">日本語</option>
+        <option value="cn.html" selected>繁體中文</option>
+      </select>
+      <a href="https://ko-fi.com/N4N34N2U2" target="_blank" rel="noreferrer"><img style="border: 0px none; height: 24px; vertical-align: middle;" src="https://cdn.ko-fi.com/cdn/kofi1.png?v=2" alt="Buy Me a Coffee at ko-fi.com" height="36"></a>
+  </footer><a href="#top" id="toTop">To Top</a>
 </body>
+
 </html>

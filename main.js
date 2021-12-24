@@ -11,13 +11,13 @@
   let drawing = false;
   let jpfontloaded = false;
 
-  window.addEventListener("load", init);
+  window.addEventListener('load', init);
 
   async function init() {
     // Wait for font load before drawing
-    await document.fonts.load("60px dragalialosten");
-    await document.fonts.load("60px dragalialostjp");
-    await document.fonts.load("60px dragalialostcn");
+    await document.fonts.load('60px dragalialost_en');
+    await document.fonts.load('60px dragalialost_ja');
+    await document.fonts.load('60px dragalialost_zh_tw');
     await drawImage();
     setupListener();
   }
@@ -27,27 +27,46 @@
    */
   function setupListener() {
     // Update image after upload
-    id("portraitUpload").addEventListener("change", changeImage);
-    id("modelUpload").addEventListener("change", changeImage);
+    id('portraitUpload').addEventListener('change', changeImage);
+    id('modelUpload').addEventListener('change', changeImage);
 
     // Draw image after parameter change
-    id("name").addEventListener("change", drawImage);
-    id("element").addEventListener("change", drawImage);
-    id("sparkAmount").addEventListener("change", drawImage);
-    id("jp").addEventListener("change", drawImage);
-    id("en").addEventListener("change", drawImage);
-    id("cn").addEventListener("change", drawImage);
+    id('name').addEventListener('input', drawImage);
+    id('element').addEventListener('change', drawImage);
+    id('sparkAmount').addEventListener('input', drawImage);
+    id('jp').addEventListener('change', drawImage);
+    id('en').addEventListener('change', drawImage);
+    id('cn').addEventListener('change', drawImage);
 
-    id("portrait").addEventListener("load", drawImage);
-    id("model").addEventListener("load", drawImage);
-
-    document.querySelectorAll("input[type=number]").forEach(e => {
-      // Sync number input with slider
-      qs(`[data-slider="${e.id}"]`).addEventListener("input", sliderUpdateNumInput);
-      qs(`[data-slider="${e.id}"]`).addEventListener("change", sliderChangeNumInput);
-      e.addEventListener("input", numInputUpdateSlider);
-      e.addEventListener("change", drawImage);
+    id('languageSelect').addEventListener('change', e => {
+      window.location = e.target.value;
     });
+
+    id('portraitPanelTab').addEventListener('click', e => {
+      e.target.classList.add('active');
+      id('modelPanelTab').classList.remove('active');
+      id('portraitPanel').classList.add('active');
+      id('modelPanel').classList.remove('active');
+    });
+    id('modelPanelTab').addEventListener('click', e => {
+      e.target.classList.add('active');
+      id('portraitPanelTab').classList.remove('active');
+      id('modelPanel').classList.add('active');
+      id('portraitPanel').classList.remove('active');
+    });
+
+    id('portrait').addEventListener('load', drawImage);
+    id('model').addEventListener('load', drawImage);
+
+    document.querySelectorAll('input[type=number]').forEach(e => {
+      // Sync number input with slider
+      qs(`[data-slider='${e.id}']`).addEventListener('input', sliderUpdateNumInput);
+      qs(`[data-slider='${e.id}']`).addEventListener('input', sliderChangeNumInput);
+      e.addEventListener('input', numInputUpdateSlider);
+      e.addEventListener('input', drawImage);
+    });
+
+    id('download').addEventListener('click', downloadImage);
   }
 
   function sliderUpdateNumInput() {
@@ -57,11 +76,11 @@
 
   function sliderChangeNumInput() {
     let input = id(this.dataset.slider);
-    input.dispatchEvent(new Event('change'));
+    input.dispatchEvent(new Event('input'));
   }
 
   function numInputUpdateSlider() {
-    let slider = qs(`[data-slider="${this.id}"]`);
+    let slider = qs(`[data-slider='${this.id}']`);
     slider.value = this.value;
   }
 
@@ -71,15 +90,15 @@
 
   async function loadTextures() {
     if(!textures.background) {
-      textures.background = await loadImage("images/bg.png");
+      textures.background = await loadImage('images/bg.png');
       textures.fire = await loadImage(`images/fire.png`);
       textures.wind = await loadImage(`images/wind.png`);
       textures.water = await loadImage(`images/water.png`);
       textures.light = await loadImage(`images/light.png`);
       textures.shadow = await loadImage(`images/shadow.png`);
-      textures.spark = await loadImage("images/spark.png");
-      textures.bar = await loadImage("images/bar.png");
-      textures.skipjp = await loadImage("images/skipjp.png");
+      textures.spark = await loadImage('images/spark.png');
+      textures.bar = await loadImage('images/bar.png');
+      textures.skipjp = await loadImage('images/skipjp.png');
     }
   }
 
@@ -87,50 +106,49 @@
    * Draws the summon screen based on inputs
    */
   async function drawImage() {
-    console.log("draw");
     if(drawing) return;
     drawing = true;
 
     // Get canvas context
-    const canvas = id("editor");
-    const ctx = canvas.getContext("2d");
-    const previewCanvas = id("preview");
-    const previewCtx = previewCanvas.getContext("2d");
+    const canvas = id('editor');
+    const ctx = canvas.getContext('2d');
+    const previewCanvas = id('preview');
+    const previewCtx = previewCanvas.getContext('2d');
 
     previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
 
     // Load images for use
     await loadTextures();
     const background = textures.background;
-    const element = textures[id("element").value];
+    const element = textures[id('element').value];
     const spark = textures.spark;
     const bar = textures.bar;
-    const sparkAmount = parseInt(id("sparkAmount").value);
-    const font =  qs("input[name=font]:checked").value;
+    const sparkAmount = parseInt(id('sparkAmount').value);
+    const font =  qs('input[name=font]:checked').value;
 
     // Get parameters
-    const adventurerName = id("name").value;
-    const portrait = id("portrait");
-    const model = id("model");
+    const adventurerName = id('name').value;
+    const portrait = id('portrait');
+    const model = id('model');
 
     // Draw background elements
     ctx.drawImage(background, 0, 0);
 
-    if(id("jp").checked) {
+    if(id('jp').checked) {
       ctx.drawImage(textures.skipjp, 0, 0);
     }
 
-    drawImageOffsetScale(ctx, portrait, id("portraitScale").value,
+    drawImageOffsetScale(ctx, portrait, id('portraitScale').value,
       canvas.width / 2, canvas.height / 2,
-      id("portraitOffsetX").value, id("portraitOffsetY").value);
+      id('portraitOffsetX').value, id('portraitOffsetY').value);
 
-    drawImageOffsetScale(ctx, model, id("modelScale").value,
+    drawImageOffsetScale(ctx, model, id('modelScale').value,
       modelPosX, modelPosY,
-      id("modelOffsetX").value, id("modelOffsetY").value);
+      id('modelOffsetX').value, id('modelOffsetY').value);
 
     ctx.drawImage(bar, 0, 0);
 
-    ctx.font = "60px dragalialost" + font;
+    ctx.font = '60px dragalialost_' + font;
 
     // Calculate text position based on text width
     let textWidth = ctx.measureText(adventurerName).width;
@@ -146,12 +164,12 @@
 
     // Draw the shadow of text -> text -> element
     let shadowOffset = 5;
-    if(font === "jp" || font === "cn") {
+    if(font === 'jp' || font === 'cn') {
       shadowOffset = 7;
     }
-    ctx.fillStyle = "#6a551f";
+    ctx.fillStyle = '#6a551f';
     ctx.fillText(adventurerName, textXPos + shadowOffset, textYPos + shadowOffset);
-    ctx.fillStyle = "white";
+    ctx.fillStyle = 'white';
     ctx.fillText(adventurerName, textXPos, textYPos);
     ctx.drawImage(element, elementXPos, elementYPos);
 
@@ -166,9 +184,6 @@
       let sparkScale = Math.min(Math.random(), .8);
       ctx.drawImage(spark, Math.random() * canvas.width,  Math.random() * canvas.height, spark.height * sparkScale, spark.width * sparkScale);
     }
-
-    // Generate download url
-    id("download").href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
 
     // Draw the editor canvas on the smaller preview canvas
     previewCtx.drawImage(canvas, 0, 0, previewCanvas.width, previewCanvas.height);
@@ -199,12 +214,31 @@
 
   function loadImage(src){
     let img = new Image();
-    img.crossOrigin = "anonymous";
+    img.crossOrigin = 'anonymous';
     img.src = src;
     return new Promise((resolve, reject) => {
       img.onload = () => resolve(img);
       img.onerror = reject;
     });
+  }
+
+  /**
+   * Generate a download link and click it
+   */
+  async function downloadImage(e) {
+    const before = e.target.innerText;
+    e.target.innerText = 'LOADING...';
+    try {
+      const blob = await new Promise(resolve => id('editor').toBlob(resolve, 'image/png'));
+      e.target.innerText = before;
+      let link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'summon_screen.png';
+      link.click();
+    } catch(error) {
+      console.error(error);
+      e.target.innerText = before;
+    }
   }
 
 })();
